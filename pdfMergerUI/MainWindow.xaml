@@ -1,0 +1,49 @@
+﻿<Window x:Class="pdfMergerUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:pdfMergerUI"
+        mc:Ignorable="d"
+        Title="pdfMerger" Height="215" Width="401">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <Button x:Name="fileOnePathButton" Content="Select File 1.." 
+            Grid.Column="1" Grid.Row="1" Margin="5" Grid.ColumnSpan="1" Click="fileOneButton_Click"/>
+        <Button x:Name="fileTwoPathButton" Content="Select File 2.." 
+            Grid.Column="1" Grid.Row="2" Margin="5" Grid.ColumnSpan="1" Click="fileTwoButton_Click"/>
+        <Button x:Name="outputPathButton" Content="Output Folder..." 
+            Grid.Column="1" Grid.Row="3" Margin="5" Grid.ColumnSpan="1" Click="outputPathButton_Click"/>
+        <Button x:Name="mergeFilesButton" Content="Merge files" 
+            Grid.Column="1" Grid.Row="4" Margin="5" Grid.ColumnSpan="1" Click="mergeFilesButton_Click"/>
+        
+        <Label x:Name="folderOnePath" Content="File 1 path..." 
+               Grid.Column="2"  Grid.Row="1" Grid.ColumnSpan="2" />
+        <Label x:Name="folderTwoPath" Content="File 2 path..." 
+               Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2"/>
+        <Label x:Name="outputFolderPath" Content="Output path..." 
+               Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2"/>
+
+        <Label  x:Name="mergeResult" Grid.Column="1" 
+                   Grid.Row="5" Grid.ColumnSpan="2" />
+        
+    </Grid>
+
+
+</Window>
