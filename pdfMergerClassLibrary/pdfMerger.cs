@@ -9,8 +9,11 @@ namespace pdfMergerClassLibrary
     public class pdfMerger
     {
         public static string fileOnePath { get; set; }
+        public static bool fileOneSelected { get; set; }
         public static string fileTwoPath { get; set; }
+        public static bool fileTwoSelected { get; set; }
         public static string outputPath { get; set; }
+        public static bool outputPathSelected { get; set; }
         public static string defaultFileName { get; set; } = "merged.pdf";
         public static bool error { get; set; } = false;
         public static string errorMessage="Done! No error";

@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pdfMergerUI"
         mc:Ignorable="d"
-        Title="pdfMerger" Height="215" Width="401">
+        Title="pdfMerger" Height="250" Width="396">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="30" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
@@ -21,7 +22,8 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         <Button x:Name="fileOnePathButton" Content="Select File 1.." 
@@ -32,17 +34,23 @@
             Grid.Column="1" Grid.Row="3" Margin="5" Grid.ColumnSpan="1" Click="outputPathButton_Click"/>
         <Button x:Name="mergeFilesButton" Content="Merge files" 
             Grid.Column="1" Grid.Row="4" Margin="5" Grid.ColumnSpan="1" Click="mergeFilesButton_Click"/>
-        
-        <Label x:Name="folderOnePath" Content="File 1 path..." 
-               Grid.Column="2"  Grid.Row="1" Grid.ColumnSpan="2" />
-        <Label x:Name="folderTwoPath" Content="File 2 path..." 
-               Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2"/>
-        <Label x:Name="outputFolderPath" Content="Output path..." 
-               Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2"/>
 
-        <Label  x:Name="mergeResult" Grid.Column="1" 
-                   Grid.Row="5" Grid.ColumnSpan="2" />
+        <TextBox x:Name="folderOnePath" Text="File 1 path..." IsReadOnly="True"  VerticalContentAlignment="Center"
+               Grid.Column="2"  Grid.Row="1" Grid.ColumnSpan="2" Background="LightGray" Margin="5"/>
+        <TextBox x:Name="folderTwoPath" Text="File 2 path..."  IsReadOnly="True"  VerticalContentAlignment="Center"
+               Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Background="LightGray" Margin="5"/>
+        <TextBox x:Name="outputFolderPath" Text="Output path..."  IsReadOnly="True"  VerticalContentAlignment="Center"
+               Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Background="LightGray" Margin="5"/>
+
+        <TextBox  x:Name="mergeResult" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" 
+                  IsReadOnly="True" Background="LightGray"/>
         
+        <Image x:Name="fileOneSelectedImage" Grid.Column="4" Grid.Row="1" Source="/images/file_selected.png"
+               MaxWidth="30" MaxHeight="20" />
+        <Image x:Name="fileTwoSelectedImage" Grid.Column="4" Grid.Row="2" Source="/images/file_selected.png"
+               MaxWidth="30" MaxHeight="20"/>
+        <Image x:Name="outputFolderSelectedImage" Grid.Column="4" Grid.Row="3" Source="/images/file_selected.png"
+               MaxWidth="30" MaxHeight="20"/>
     </Grid>
 
 
