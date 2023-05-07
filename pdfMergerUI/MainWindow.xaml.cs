@@ -20,6 +20,10 @@ namespace pdfMergerUI
             fileTwoSelectedImage.Visibility = Visibility.Hidden;
             outputFolderSelectedImage.Visibility = Visibility.Hidden;
 
+            clearFileOnePathButton.Visibility = Visibility.Hidden;
+            clearFileTwoPathButton.Visibility = Visibility.Hidden;
+            clearOutputPathButton.Visibility = Visibility.Hidden;
+
         }
 
         private void fileOneButton_Click(object sender, RoutedEventArgs e)
@@ -34,6 +38,7 @@ namespace pdfMergerUI
                     folderOnePath.Text = pdfMerger.fileOnePath;
                     fileOneSelectedImage.Visibility = Visibility.Visible;
                     pdfMerger.fileOneSelected = true;
+                    clearFileOnePathButton.Visibility=Visibility.Visible;
                 }
                 
 
@@ -52,6 +57,7 @@ namespace pdfMergerUI
                     folderTwoPath.Text = pdfMerger.fileTwoPath;
                     fileTwoSelectedImage.Visibility = Visibility.Visible;
                     pdfMerger.fileTwoSelected = true;
+                    clearFileTwoPathButton.Visibility = Visibility.Visible;
                 }
             }
         }
@@ -69,13 +75,15 @@ namespace pdfMergerUI
                     outputFolderPath.Text = pdfMerger.outputPath;
                     outputFolderSelectedImage.Visibility = Visibility.Visible;
                     pdfMerger.outputPathSelected = true;
+                    clearOutputPathButton.Visibility = Visibility.Visible;
                 }
             }
         }
 
         private void mergeFilesButton_Click(object sender, RoutedEventArgs e)
         {
-            if (pdfMerger.fileOneSelected && pdfMerger.fileTwoSelected && pdfMerger.outputPathSelected)
+            pdfMerger.mergedFileName = MergedFileName.Text+".pdf";
+            if (pdfMerger.fileOneSelected && pdfMerger.fileTwoSelected && pdfMerger.outputPathSelected && pdfMerger.mergedFileName!=string.Empty)
             {
                 pdfMerger.mergePdfFiles();
                 if (pdfMerger.error)
@@ -101,6 +109,34 @@ namespace pdfMergerUI
                     mergeResult.Text += "Please select output folder! ";
             }
 
+        }
+
+        private void clearFileOnePathButton_Click(object sender, RoutedEventArgs e)
+        {
+            pdfMerger.fileOnePath = string.Empty;
+            folderOnePath.Text = "File 1 path...";
+            pdfMerger.fileOneSelected = false;
+            clearFileOnePathButton.Visibility = Visibility.Hidden;
+            fileOneSelectedImage.Visibility = Visibility.Hidden;
+        }
+
+        private void clearFileTwoPathButton_Click(object sender, RoutedEventArgs e)
+        {
+            pdfMerger.fileTwoPath = string.Empty;
+            folderTwoPath.Text = "File 2 path...";
+            pdfMerger.fileTwoSelected = false;
+            clearFileTwoPathButton.Visibility = Visibility.Hidden;
+            fileTwoSelectedImage.Visibility = Visibility.Hidden;
+
+        }
+
+        private void clearOutputPathButton_Click(object sender, RoutedEventArgs e)
+        {
+            pdfMerger.outputPath = string.Empty;
+            outputFolderPath.Text = "Output path...";
+            pdfMerger.outputPathSelected = false;
+            clearOutputPathButton.Visibility = Visibility.Hidden;
+            outputFolderSelectedImage.Visibility = Visibility.Hidden;
         }
     }
 }

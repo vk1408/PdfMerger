@@ -14,7 +14,7 @@ namespace pdfMergerClassLibrary
         public static bool fileTwoSelected { get; set; }
         public static string outputPath { get; set; }
         public static bool outputPathSelected { get; set; }
-        public static string defaultFileName { get; set; } = "merged.pdf";
+        public static string mergedFileName { get; set; } = "merged.pdf";
         public static bool error { get; set; } = false;
         public static string errorMessage="Done! No error";
         public static void mergePdfFiles ()
@@ -28,7 +28,7 @@ namespace pdfMergerClassLibrary
                     PdfDocument pdf = PdfReader.Open(pdfFile, PdfDocumentOpenMode.Import);
                     CopyPages(pdf, outPdf);
                 }
-                outPdf.Save(outputPath + "\\" + defaultFileName);
+                outPdf.Save(outputPath + "\\" + mergedFileName);
             }
             catch (Exception e)
             {
