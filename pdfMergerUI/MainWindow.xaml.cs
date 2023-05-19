@@ -19,6 +19,7 @@ namespace pdfMergerUI
             fileOneSelectedImage.Visibility = Visibility.Hidden;
             fileTwoSelectedImage.Visibility = Visibility.Hidden;
             outputFolderSelectedImage.Visibility = Visibility.Hidden;
+            outputFileNameImage.Visibility = Visibility.Visible; 
 
             clearFileOnePathButton.Visibility = Visibility.Hidden;
             clearFileTwoPathButton.Visibility = Visibility.Hidden;
@@ -83,7 +84,7 @@ namespace pdfMergerUI
         private void mergeFilesButton_Click(object sender, RoutedEventArgs e)
         {
             pdfMerger.mergedFileName = MergedFileName.Text+".pdf";
-            if (pdfMerger.fileOneSelected && pdfMerger.fileTwoSelected && pdfMerger.outputPathSelected && pdfMerger.mergedFileName!=string.Empty)
+            if (pdfMerger.fileOneSelected && pdfMerger.fileTwoSelected && pdfMerger.outputPathSelected && pdfMerger.mergedFileNameOK)
             {
                 pdfMerger.mergePdfFiles();
                 if (pdfMerger.error)
@@ -106,7 +107,9 @@ namespace pdfMergerUI
                 if (pdfMerger.fileTwoSelected == false)
                     mergeResult.Text += "Please select file two!  \n";
                 if (pdfMerger.outputPathSelected == false)
-                    mergeResult.Text += "Please select output folder! ";
+                    mergeResult.Text += "Please select output folder! \n";
+                if (pdfMerger.mergedFileNameOK == false)
+                    mergeResult.Text += "Select output file name!";
             }
 
         }
@@ -137,6 +140,20 @@ namespace pdfMergerUI
             pdfMerger.outputPathSelected = false;
             clearOutputPathButton.Visibility = Visibility.Hidden;
             outputFolderSelectedImage.Visibility = Visibility.Hidden;
+        }
+
+        private void MergedFileName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (MergedFileName.Text != string.Empty)
+            {
+                pdfMerger.mergedFileNameOK = true;
+                outputFileNameImage.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                pdfMerger.mergedFileNameOK = false;
+                outputFileNameImage.Visibility = Visibility.Hidden;
+            }
         }
     }
 }

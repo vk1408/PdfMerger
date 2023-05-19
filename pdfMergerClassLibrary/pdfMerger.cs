@@ -15,6 +15,7 @@ namespace pdfMergerClassLibrary
         public static string outputPath { get; set; }
         public static bool outputPathSelected { get; set; }
         public static string mergedFileName { get; set; } = "merged.pdf";
+        public static bool mergedFileNameOK { get; set; }   
         public static bool error { get; set; } = false;
         public static string errorMessage="Done! No error";
         public static void mergePdfFiles ()
