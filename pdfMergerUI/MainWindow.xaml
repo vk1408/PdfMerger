@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pdfMergerUI"
         mc:Ignorable="d"
-        Title="pdfMerger" Height="270" Width="396">
+        Title="pdfMerger" Height="270" Width="396" Icon="/images/logo.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />

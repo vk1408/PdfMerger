@@ -144,7 +144,7 @@ namespace pdfMergerUI
 
         private void MergedFileName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (MergedFileName.Text != string.Empty)
+            if (MergedFileName.Text != string.Empty && Utils.hasSpecialChar(MergedFileName.Text) == false)
             {
                 pdfMerger.mergedFileNameOK = true;
                 outputFileNameImage.Visibility = Visibility.Visible;
