@@ -1,4 +1,4 @@
-# pdfMerger 
+# PdfMerger 
 
 A simple non-MVVM WPF application for merging two pdf files together
 
