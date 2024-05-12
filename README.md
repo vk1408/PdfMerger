@@ -1,5 +1,5 @@
 # pdfMerger 
 
-A simple WPF application that can merge two pdf files together
+A simple non-MVVM WPF application for merging two pdf files together
 
-![Alt text](/pdfMergerUI/images/pdfMergerUI.png "pdfMerger UI")
+![Alt text](/PdfMerger.UI/Images/PdfMergerUI.png "pdfMerger UI")
