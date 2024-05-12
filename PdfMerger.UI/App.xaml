@@ -1,7 +1,7 @@
-﻿<Application x:Class="pdfMergerUI.App"
+﻿<Application x:Class="PdfMergerUI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:pdfMergerUI"
+             xmlns:local="clr-namespace:PdfMergerUI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

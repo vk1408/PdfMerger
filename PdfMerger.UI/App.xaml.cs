@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace pdfMergerUI
+namespace PdfMergerUI
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -7,8 +7,8 @@
     <ProjectGuid>{4345567D-6790-43A3-84E3-29FB157FC922}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>pdfMergerClassLibrary</RootNamespace>
-    <AssemblyName>pdfMergerClassLibrary</AssemblyName>
+    <RootNamespace>PdfMerger.Core</RootNamespace>
+    <AssemblyName>PdfMerger.Core</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="pdfMerger.cs" />
+    <Compile Include="PdfFileMerger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>

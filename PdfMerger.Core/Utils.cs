@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace pdfMergerClassLibrary
+namespace PdfMerger.Core
 {
     public static class Utils
     {
