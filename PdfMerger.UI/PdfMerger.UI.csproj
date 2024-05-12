@@ -102,6 +102,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -116,9 +117,6 @@
       <Project>{4345567d-6790-43a3-84e3-29fb157fc922}</Project>
       <Name>PdfMerger.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\file_selected.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\delete_button.png" />

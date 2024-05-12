@@ -18,14 +18,42 @@ namespace PdfMerger.UI
         private bool _fileOneSelected;
         private bool _fileTwoSelected;
         private bool _outputPathSelected;
-        private bool _fileNameOk = true;
+        private bool _fileNameOk;
+        private const string _fileOnePathDefaultText = "Select file one path...";
+        private const string _fileTwoPathDefaultText = "Select file two path...";
+        private const string _outputFolderDefaultText = "Select output folder...";
+        private const string _outputFileDefaultName = "output"; 
+        private const string _checked = "✔";
+        private const string _unchecked = "✖";
+
 
         public MainWindow()
         {
             InitializeComponent();
+            ResetAll();
         }
 
-        private void fileOneButton_Click(object sender, RoutedEventArgs e)
+        private void ResetAll()
+        {
+            _fileOneSelected = false;
+            _fileTwoSelected = false;
+            _outputPathSelected = false;
+            _fileNameOk = false;
+
+            txtFileOnePath.Text = _fileOnePathDefaultText;
+            txtFileTwoPath.Text = _fileTwoPathDefaultText;
+            txtOutputFolderPath.Text = _outputFolderDefaultText;
+            txtOutputFileName.Text = _outputFileDefaultName;
+
+            lblFileOneSelected.Content = _unchecked;
+            lblFileTwoSelected.Content = _unchecked;
+            lblOutputFolderSelected.Content = _unchecked;
+            //lblOutputFileNameOk.Content = _checked;
+
+            txtError.Text = string.Empty;
+        }
+
+        private void btnSelectfileOnePath_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Pdf files (*.pdf)|*.pdf;";
@@ -34,13 +62,14 @@ namespace PdfMerger.UI
 
             if (!string.IsNullOrEmpty(openFileDialog.FileName))
             {
-                folderOnePath.Text = openFileDialog.FileName;
+                txtFileOnePath.Text = openFileDialog.FileName;
                 _fileOneSelected = true;
+                lblFileOneSelected.Content = _checked;
             }
      
         }
 
-        private void fileTwoButton_Click(object sender, RoutedEventArgs e)
+        private void btnSelectFileTwoPath_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Pdf files (*.pdf)|*.pdf;";
@@ -48,20 +77,22 @@ namespace PdfMerger.UI
             openFileDialog.ShowDialog();
             if (!string.IsNullOrEmpty(openFileDialog.FileName))
             {
-                folderTwoPath.Text = openFileDialog.FileName;
+                txtFileTwoPath.Text = openFileDialog.FileName;
                 _fileTwoSelected = true;
+                lblFileTwoSelected.Content = _checked;
             }
         }
 
-        private void outputPathButton_Click(object sender, RoutedEventArgs e)
+        private void btnSelectOutputPath_Click(object sender, RoutedEventArgs e)
         {
             var folderBrowser = new WinForms.FolderBrowserDialog();
             folderBrowser.ShowNewFolderButton = true;
             folderBrowser.ShowDialog();
             if (!string.IsNullOrEmpty(folderBrowser.SelectedPath))
             {
-                outputFolderPath.Text = folderBrowser.SelectedPath;
+                txtOutputFolderPath.Text = folderBrowser.SelectedPath;
                 _outputPathSelected = true;
+                lblOutputFolderSelected.Content = _checked;
             }
         }
 
@@ -82,46 +113,60 @@ namespace PdfMerger.UI
                 MessageBox.Show("Select output path!");
                 return;
             }
+            else if (_fileNameOk == false)
+            {
+                MessageBox.Show("Inappropriate file name!");
+                return;
+            }
             else
             {
                 try
                 {
-                    string outputFilePath = Path.Combine(outputFolderPath.Text, outputFileName.Text+".pdf");
-                    PdfFileMerger.MergePdfFiles(folderOnePath.Text, folderTwoPath.Text, outputFilePath);
-                    mergeResult.Text = "Files succesfully merged!";
+                    string outputFilePath = Path.Combine(txtOutputFolderPath.Text, txtOutputFileName.Text + ".pdf");
+                    PdfFileMerger.MergePdfFiles(txtFileOnePath.Text, txtFileTwoPath.Text, outputFilePath);
+                    txtError.Text = "Files succesfully merged!";
                 }
                 catch (Exception ex)
                 {
-                    mergeResult.Text = $"Merging files failed. {ex.Message}";
+                    txtError.Text = $"Merging files failed. {ex.Message}";
                 }
             }
        
         }
 
-        private void clearFileOnePathButton_Click(object sender, RoutedEventArgs e)
+        private void btnClearFileOnePath_Click(object sender, RoutedEventArgs e)
         {
-            folderOnePath.Text = "Select file 1 path...";
+            txtFileOnePath.Text = _fileOnePathDefaultText;
+            _fileOneSelected = false;
+            lblFileOneSelected.Content = _unchecked;
         }
 
-        private void clearFileTwoPathButton_Click(object sender, RoutedEventArgs e)
+        private void btnClearFileTwoPath_Click(object sender, RoutedEventArgs e)
         {
-            folderTwoPath.Text = "Select file 2 path...";
+            txtFileTwoPath.Text = _fileTwoPathDefaultText;
+            _fileTwoSelected = false;
+            lblFileTwoSelected.Content = _unchecked;
         }
 
-        private void clearOutputPathButton_Click(object sender, RoutedEventArgs e)
+        private void btnClearOutputPath_Click(object sender, RoutedEventArgs e)
         {
-            outputFolderPath.Text = "Select output path...";
+            txtOutputFolderPath.Text = _outputFolderDefaultText;
+            _outputPathSelected = false;
+            lblOutputFolderSelected.Content = _unchecked;
         }
 
-        private void mergedFileName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void txtOutputFileName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(outputFileName.Text) && !Utils.hasSpecialChar(outputFileName.Text))
+            if (string.IsNullOrEmpty(txtOutputFileName.Text) || Utils.hasSpecialChar(txtOutputFileName.Text))
             {
-                outputFileNameImage.Visibility = Visibility.Visible;
+                _fileNameOk = false;
+                lblOutputFileNameOk.Content = _unchecked;
             }
             else
             {
-                outputFileNameImage.Visibility = Visibility.Hidden;
+                _fileNameOk = true;
+                lblOutputFileNameOk.Content = _checked;
+
             }
         }
     }

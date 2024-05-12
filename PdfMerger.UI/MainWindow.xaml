@@ -5,78 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PdfMerger.UI"
         mc:Ignorable="d"
-        Title="PdfMerger" Height="270" Width="396" Icon="/images/logo.png">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="30" />
-            <ColumnDefinition Width="30" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="20" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="50" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="20" />
-        </Grid.RowDefinitions>
-        
-        <Button x:Name="fileOnePathButton" Content="Select File 1.." 
-            Grid.Column="1" Grid.Row="1" Margin="5" Grid.ColumnSpan="1" Click="fileOneButton_Click"/>
-        <Button x:Name="fileTwoPathButton" Content="Select File 2.." 
-            Grid.Column="1" Grid.Row="2" Margin="5" Grid.ColumnSpan="1" Click="fileTwoButton_Click"/>
-        <Button x:Name="outputPathButton" Content="Output Folder..." 
-            Grid.Column="1" Grid.Row="3" Margin="5" Grid.ColumnSpan="1" Click="outputPathButton_Click"/>
-        <Button x:Name="mergeFilesButton" Content="Merge files" 
-            Grid.Column="1" Grid.Row="5" Margin="5" Grid.ColumnSpan="1" Click="mergeFilesButton_Click"/>
+        Title="PdfMerger" Height="300" Width="396" Icon="/images/logo.png"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Grid Background="WhiteSmoke">
+        <StackPanel>
+            <!-- File one area -->
+            <StackPanel Orientation="Horizontal" Margin="10,10,10,0">
+                <Button x:Name="btnSelectfileOnePath" Content="Select File 1.." Click="btnSelectfileOnePath_Click" Width="90" Height="25"/>
+                <TextBox x:Name="txtFileOnePath"  Width="150" Height="25" IsReadOnly="True" Background="LightGray" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
+                <Label x:Name="lblFileOneSelected" Width="25" Height="25" Margin="5,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                <Button x:Name="btnClearFileOnePath" Margin="5,0,0,0" Width="25" Height="25" Click="btnClearFileOnePath_Click" >
+                    <Image Source="/images/delete_button.png"/>
+                </Button>
+            </StackPanel>
+            
+            <!-- File two area -->
+            <StackPanel Orientation="Horizontal" Margin="10,10,10,0">
+                <Button x:Name="btnSelectFileTwoPath" Content="Select File 2.." Click="btnSelectFileTwoPath_Click" Width="90" Height="25"/>
+                <TextBox x:Name="txtFileTwoPath" Width="150" Height="25" IsReadOnly="True" Background="LightGray" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
+                <Label x:Name="lblFileTwoSelected" Width="25" Height="25" Margin="5,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                <Button x:Name="btnClearFileTwoPath" Margin="5,0,0,0" Width="25" Height="25" Click="btnClearFileTwoPath_Click" >
+                    <Image Source="/images/delete_button.png"/>
+                </Button>
+            </StackPanel>
+            
+            <!-- Output folder area -->
+            <StackPanel Orientation="Horizontal" Margin="10,10,10,0">
+                <Button x:Name="btnSelectOutputPath" Content="Output Folder..." Click="btnSelectOutputPath_Click" Width="90" Height="25"/>
+                <TextBox x:Name="txtOutputFolderPath" Width="150" Height="25" IsReadOnly="True"  VerticalContentAlignment="Center" Background="LightGray" Margin="5,0,0,0"/>
+                <Label x:Name="lblOutputFolderSelected" Width="25" Height="25" Margin="5,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                <Button x:Name="btnClearOutputPath" Margin="5,0,0,0" MaxWidth="25" MaxHeight="25" Click="btnClearOutputPath_Click" >
+                    <Image Source="/images/delete_button.png"/>
+                </Button>
+            </StackPanel>
+            
+            <!-- Output file name -->
+            <StackPanel Orientation="Horizontal" Margin="10,10,10,0" ToolTip="No special characters allowed">
+                <Label Content="File Name:"  Width="90" Height="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+                <TextBox x:Name="txtOutputFileName" IsReadOnly="False"  VerticalContentAlignment="Center" Margin="5,0,0,0" TextChanged="txtOutputFileName_TextChanged"  Width="150" Height="25" />
+                <Label x:Name="lblOutputFileNameOk" Width="25" Height="25" Margin="5,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+            
+            <!-- Merge files area -->
+            <StackPanel Orientation="Horizontal" Margin="10,10,10,0">
+                <Button x:Name="btnMergeFiles" Content="Merge files" Click="mergeFilesButton_Click" Width="90" Height="25"/>
+            </StackPanel>
 
-
-        
-        <!--Files, Output Name and folders selected - check in image-->
-        <Image x:Name="fileOneSelectedImage" Grid.Column="4" Grid.Row="1" Source="/images/file_selected.png"
-               MaxWidth="30" MaxHeight="20" Visibility="{Binding Path=InputCheck.FileOneOk}"/>
-        <Image x:Name="fileTwoSelectedImage" Grid.Column="4" Grid.Row="2" Source="/images/file_selected.png"
-               MaxWidth="30" MaxHeight="20"/>
-        <Image x:Name="outputFolderSelectedImage" Grid.Column="4" Grid.Row="3" Source="/images/file_selected.png"
-               MaxWidth="30" MaxHeight="20"/>
-        <Image x:Name="outputFileNameImage" Grid.Column="4" Grid.Row="4" Source="/images/file_selected.png"
-               MaxWidth="30" MaxHeight="20"/>
-        
-        <TextBox x:Name="folderOnePath" Text="File 1 path..." IsReadOnly="True"  VerticalContentAlignment="Center"
-               Grid.Column="2"  Grid.Row="1" Grid.ColumnSpan="2" Background="LightGray" Margin="5"/>
-        <TextBox x:Name="folderTwoPath" Text="File 2 path..."  IsReadOnly="True"  VerticalContentAlignment="Center"
-               Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Background="LightGray" Margin="5"/>
-        <TextBox x:Name="outputFolderPath" Text="Output path..."  IsReadOnly="True"  VerticalContentAlignment="Center"
-               Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2"  Background="LightGray" Margin="5"/>
-        <TextBox x:Name="outputFileName" Text="merged"  IsReadOnly="False"  VerticalContentAlignment="Center"
-               Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2"  Margin="5" TextChanged="mergedFileName_TextChanged"/>
-        <TextBlock Grid.Column="1" Grid.Row="4" Text="Merged File Name:" Margin="5"/>
-
-        <TextBox  x:Name="mergeResult" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" 
-                  IsReadOnly="True" Background="LightGray" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-
-        <!--Delete selected links buttons-->
-        <Button x:Name="clearFileOnePathButton"  Grid.Column="5" Grid.Row="1" Margin="2,2,2,2"
-                MaxWidth="25" MaxHeight="25" Click="clearFileOnePathButton_Click" >
-            <Image Source="/images/delete_button.png"/>
-        </Button>
-        <Button x:Name="clearFileTwoPathButton"  Grid.Column="5" Grid.Row="2" Margin="2,2,2,2"
-                MaxWidth="25" MaxHeight="25" Click="clearFileTwoPathButton_Click" >
-            <Image Source="/images/delete_button.png"/>
-        </Button>
-        <Button x:Name="clearOutputPathButton"  Grid.Column="5" Grid.Row="3" Margin="2,2,2,2"
-                MaxWidth="25" MaxHeight="25" Click="clearOutputPathButton_Click" >
-            <Image Source="/images/delete_button.png"/>
-        </Button>
-
+            <!-- Message area -->
+            <StackPanel Orientation="Vertical" Margin="10,10,10,0">
+                <TextBox  x:Name="txtError" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Height="50" Background="Transparent"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 
 
