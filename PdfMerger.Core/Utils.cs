@@ -8,12 +8,13 @@ namespace PdfMerger.Core
 {
     public static class Utils
     {
-        public static bool hasSpecialChar(string input)
+        public static bool HasSpecialChar(string input)
         {
-            string specialChar = @"\|!#$%&/()=?»«@£§€{}.-;'<>_,";
+            string specialChar = @"\|!#$%&/()=?»«@£§€{}.-;'<>,";
             foreach (var item in specialChar)
             {
-                if (input.Contains(item)) return true;
+                if (input.Contains(item)) 
+                    return true;
             }
 
             return false;

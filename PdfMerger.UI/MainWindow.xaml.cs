@@ -19,13 +19,12 @@ namespace PdfMerger.UI
         private bool _fileTwoSelected;
         private bool _outputPathSelected;
         private bool _fileNameOk;
-        private const string _fileOnePathDefaultText = "Select file one path...";
-        private const string _fileTwoPathDefaultText = "Select file two path...";
-        private const string _outputFolderDefaultText = "Select output folder...";
-        private const string _outputFileDefaultName = "output"; 
-        private const string _checked = "✔";
-        private const string _unchecked = "✖";
-
+        private const string FileOnePathDefaultText = "Select file one path...";
+        private const string FileTwoPathDefaultText = "Select file two path...";
+        private const string OutputFolderDefaultText = "Select output folder...";
+        private const string OutputFileDefaultName = "output"; 
+        private const string Checked = "✔";
+        private const string Unchecked = "✖";
 
         public MainWindow()
         {
@@ -40,15 +39,17 @@ namespace PdfMerger.UI
             _outputPathSelected = false;
             _fileNameOk = false;
 
-            txtFileOnePath.Text = _fileOnePathDefaultText;
-            txtFileTwoPath.Text = _fileTwoPathDefaultText;
-            txtOutputFolderPath.Text = _outputFolderDefaultText;
-            txtOutputFileName.Text = _outputFileDefaultName;
+            txtFileOnePath.Text = FileOnePathDefaultText;
+            txtFileTwoPath.Text = FileTwoPathDefaultText;
+            txtOutputFolderPath.Text = OutputFolderDefaultText;
+            txtOutputFileName.Text = OutputFileDefaultName;
 
-            lblFileOneSelected.Content = _unchecked;
-            lblFileTwoSelected.Content = _unchecked;
-            lblOutputFolderSelected.Content = _unchecked;
-            //lblOutputFileNameOk.Content = _checked;
+            lblFileOneSize.Content = string.Empty;
+            lblFileTwoSize.Content = string.Empty;
+
+            lblFileOneSelected.Content = Unchecked;
+            lblFileTwoSelected.Content = Unchecked;
+            lblOutputFolderSelected.Content = Unchecked;
 
             txtError.Text = string.Empty;
         }
@@ -64,7 +65,9 @@ namespace PdfMerger.UI
             {
                 txtFileOnePath.Text = openFileDialog.FileName;
                 _fileOneSelected = true;
-                lblFileOneSelected.Content = _checked;
+                lblFileOneSelected.Content = Checked;
+                long fileLenghtKB = new FileInfo(openFileDialog.FileName).Length / 1024;  
+                lblFileOneSize.Content = $"{fileLenghtKB} KB";
             }
      
         }
@@ -79,7 +82,9 @@ namespace PdfMerger.UI
             {
                 txtFileTwoPath.Text = openFileDialog.FileName;
                 _fileTwoSelected = true;
-                lblFileTwoSelected.Content = _checked;
+                lblFileTwoSelected.Content = Checked;
+                long fileLenghtKB = new FileInfo(openFileDialog.FileName).Length / 1024;
+                lblFileTwoSize.Content = $"{fileLenghtKB} KB";
             }
         }
 
@@ -92,7 +97,7 @@ namespace PdfMerger.UI
             {
                 txtOutputFolderPath.Text = folderBrowser.SelectedPath;
                 _outputPathSelected = true;
-                lblOutputFolderSelected.Content = _checked;
+                lblOutputFolderSelected.Content = Checked;
             }
         }
 
@@ -136,36 +141,38 @@ namespace PdfMerger.UI
 
         private void btnClearFileOnePath_Click(object sender, RoutedEventArgs e)
         {
-            txtFileOnePath.Text = _fileOnePathDefaultText;
+            txtFileOnePath.Text = FileOnePathDefaultText;
             _fileOneSelected = false;
-            lblFileOneSelected.Content = _unchecked;
+            lblFileOneSelected.Content = Unchecked;
+            lblFileOneSize.Content = string.Empty;
         }
 
         private void btnClearFileTwoPath_Click(object sender, RoutedEventArgs e)
         {
-            txtFileTwoPath.Text = _fileTwoPathDefaultText;
+            txtFileTwoPath.Text = FileTwoPathDefaultText;
             _fileTwoSelected = false;
-            lblFileTwoSelected.Content = _unchecked;
+            lblFileTwoSelected.Content = Unchecked;
+            lblFileTwoSize.Content = string.Empty;
         }
 
         private void btnClearOutputPath_Click(object sender, RoutedEventArgs e)
         {
-            txtOutputFolderPath.Text = _outputFolderDefaultText;
+            txtOutputFolderPath.Text = OutputFolderDefaultText;
             _outputPathSelected = false;
-            lblOutputFolderSelected.Content = _unchecked;
+            lblOutputFolderSelected.Content = Unchecked;
         }
 
         private void txtOutputFileName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtOutputFileName.Text) || Utils.hasSpecialChar(txtOutputFileName.Text))
+            if (string.IsNullOrEmpty(txtOutputFileName.Text) || Utils.HasSpecialChar(txtOutputFileName.Text))
             {
                 _fileNameOk = false;
-                lblOutputFileNameOk.Content = _unchecked;
+                lblOutputFileNameOk.Content = Unchecked;
             }
             else
             {
                 _fileNameOk = true;
-                lblOutputFileNameOk.Content = _checked;
+                lblOutputFileNameOk.Content = Checked;
 
             }
         }

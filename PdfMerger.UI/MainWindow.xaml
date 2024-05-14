@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PdfMerger.UI"
         mc:Ignorable="d"
-        Title="PdfMerger" Height="300" Width="396" Icon="/images/logo.png"
+        Title="PdfMerger" Height="300" Width="420" Icon="/images/AppLogo.png"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
     <Grid Background="WhiteSmoke">
@@ -16,8 +16,9 @@
                 <TextBox x:Name="txtFileOnePath"  Width="150" Height="25" IsReadOnly="True" Background="LightGray" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
                 <Label x:Name="lblFileOneSelected" Width="25" Height="25" Margin="5,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
                 <Button x:Name="btnClearFileOnePath" Margin="5,0,0,0" Width="25" Height="25" Click="btnClearFileOnePath_Click" >
-                    <Image Source="/images/delete_button.png"/>
+                    <Image Source="/images/DeleteButton.png"/>
                 </Button>
+                <Label x:Name="lblFileOneSize" Width="90" Height="25" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
             </StackPanel>
             
             <!-- File two area -->
@@ -26,8 +27,9 @@
                 <TextBox x:Name="txtFileTwoPath" Width="150" Height="25" IsReadOnly="True" Background="LightGray" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
                 <Label x:Name="lblFileTwoSelected" Width="25" Height="25" Margin="5,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
                 <Button x:Name="btnClearFileTwoPath" Margin="5,0,0,0" Width="25" Height="25" Click="btnClearFileTwoPath_Click" >
-                    <Image Source="/images/delete_button.png"/>
+                    <Image Source="/images/DeleteButton.png"/>
                 </Button>
+                <Label x:Name="lblFileTwoSize" Width="90" Height="25" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
             </StackPanel>
             
             <!-- Output folder area -->
@@ -36,7 +38,7 @@
                 <TextBox x:Name="txtOutputFolderPath" Width="150" Height="25" IsReadOnly="True"  VerticalContentAlignment="Center" Background="LightGray" Margin="5,0,0,0"/>
                 <Label x:Name="lblOutputFolderSelected" Width="25" Height="25" Margin="5,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
                 <Button x:Name="btnClearOutputPath" Margin="5,0,0,0" MaxWidth="25" MaxHeight="25" Click="btnClearOutputPath_Click" >
-                    <Image Source="/images/delete_button.png"/>
+                    <Image Source="/images/DeleteButton.png"/>
                 </Button>
             </StackPanel>
             
