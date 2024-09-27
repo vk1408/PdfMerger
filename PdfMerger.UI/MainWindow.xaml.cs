@@ -128,7 +128,7 @@ namespace PdfMerger.UI
                 try
                 {
                     string outputFilePath = Path.Combine(txtOutputFolderPath.Text, txtOutputFileName.Text + ".pdf");
-                    PdfFileMerger.MergePdfFiles(txtFileOnePath.Text, txtFileTwoPath.Text, outputFilePath);
+                    PdfEditor.MergeFiles(txtFileOnePath.Text, txtFileTwoPath.Text, outputFilePath);
                     txtError.Text = "Files succesfully merged!";
                 }
                 catch (Exception ex)
