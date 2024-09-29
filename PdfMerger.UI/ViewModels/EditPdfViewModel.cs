@@ -9,5 +9,6 @@ namespace PdfMerger.UI.ViewModels
 {
     public class EditPdfViewModel : ViewModelBase
     {
+
     }
 }

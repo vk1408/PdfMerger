@@ -4,61 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PdfMerger.UI"
+        xmlns:vm="clr-namespace:PdfMerger.UI.ViewModels"
+        
         mc:Ignorable="d"
-        Title="PdfMerger" Height="300" Width="420" Icon="/images/AppLogo.png"
-        ResizeMode="NoResize"
+        Title="PdfMerger" Height="500" Width="800" Icon="/images/AppLogo.png"
+
         WindowStartupLocation="CenterScreen">
     <Grid Background="WhiteSmoke">
-        <StackPanel>
-            <!-- File one area -->
-            <StackPanel Orientation="Horizontal" Margin="10,10,10,0">
-                <Button x:Name="btnSelectfileOnePath" Content="Select File 1.." Click="btnSelectfileOnePath_Click" Width="90" Height="25"/>
-                <TextBox x:Name="txtFileOnePath"  Width="150" Height="25" IsReadOnly="True" Background="LightGray" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
-                <Label x:Name="lblFileOneSelected" Width="25" Height="25" Margin="5,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-                <Button x:Name="btnClearFileOnePath" Margin="5,0,0,0" Width="25" Height="25" Click="btnClearFileOnePath_Click" >
-                    <Image Source="/images/DeleteButton.png"/>
-                </Button>
-                <Label x:Name="lblFileOneSize" Width="90" Height="25" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
-            </StackPanel>
-            
-            <!-- File two area -->
-            <StackPanel Orientation="Horizontal" Margin="10,10,10,0">
-                <Button x:Name="btnSelectFileTwoPath" Content="Select File 2.." Click="btnSelectFileTwoPath_Click" Width="90" Height="25"/>
-                <TextBox x:Name="txtFileTwoPath" Width="150" Height="25" IsReadOnly="True" Background="LightGray" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
-                <Label x:Name="lblFileTwoSelected" Width="25" Height="25" Margin="5,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-                <Button x:Name="btnClearFileTwoPath" Margin="5,0,0,0" Width="25" Height="25" Click="btnClearFileTwoPath_Click" >
-                    <Image Source="/images/DeleteButton.png"/>
-                </Button>
-                <Label x:Name="lblFileTwoSize" Width="90" Height="25" Margin="5,0,0,0" VerticalContentAlignment="Center"/>
-            </StackPanel>
-            
-            <!-- Output folder area -->
-            <StackPanel Orientation="Horizontal" Margin="10,10,10,0">
-                <Button x:Name="btnSelectOutputPath" Content="Output Folder..." Click="btnSelectOutputPath_Click" Width="90" Height="25"/>
-                <TextBox x:Name="txtOutputFolderPath" Width="150" Height="25" IsReadOnly="True"  VerticalContentAlignment="Center" Background="LightGray" Margin="5,0,0,0"/>
-                <Label x:Name="lblOutputFolderSelected" Width="25" Height="25" Margin="5,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-                <Button x:Name="btnClearOutputPath" Margin="5,0,0,0" MaxWidth="25" MaxHeight="25" Click="btnClearOutputPath_Click" >
-                    <Image Source="/images/DeleteButton.png"/>
-                </Button>
-            </StackPanel>
-            
-            <!-- Output file name -->
-            <StackPanel Orientation="Horizontal" Margin="10,10,10,0" ToolTip="No special characters allowed">
-                <Label Content="File Name:"  Width="90" Height="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
-                <TextBox x:Name="txtOutputFileName" IsReadOnly="False"  VerticalContentAlignment="Center" Margin="5,0,0,0" TextChanged="txtOutputFileName_TextChanged"  Width="150" Height="25" />
-                <Label x:Name="lblOutputFileNameOk" Width="25" Height="25" Margin="5,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-            </StackPanel>
-            
-            <!-- Merge files area -->
-            <StackPanel Orientation="Horizontal" Margin="10,10,10,0">
-                <Button x:Name="btnMergeFiles" Content="Merge files" Click="mergeFilesButton_Click" Width="90" Height="25"/>
-            </StackPanel>
+        <ContentControl x:Name="cconCurrentView">
 
-            <!-- Message area -->
-            <StackPanel Orientation="Vertical" Margin="10,10,10,0">
-                <TextBox  x:Name="txtError" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Height="50" Background="Transparent"/>
-            </StackPanel>
-        </StackPanel>
+        </ContentControl>
     </Grid>
 
 
