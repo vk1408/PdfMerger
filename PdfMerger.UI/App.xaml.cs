@@ -20,13 +20,6 @@ namespace PdfMergerUI
         public App()
         {
             Services = ConfigureServices();
-
-            var mainWindowViewModel = new MainWindowViewModel();
-            var mainWindow = new MainWindow();
-            this.MainWindow = mainWindow;
-            this.MainWindow.DataContext = mainWindowViewModel;
-
-
         }
 
         public new static App Current => (App)Application.Current;
@@ -35,11 +28,15 @@ namespace PdfMergerUI
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            var navService = Services.GetService<INavigationService>();
 
-            var navService = App.Current.Services.GetService<INavigationService>();
-            var mainWindowViewModel = (this.MainWindow as MainWindow).DataContext as MainWindowViewModel;
-            navService.NavigateTo(mainWindowViewModel.SelectionViewModel);
-            Application.Current.MainWindow.Show();
+            MainWindow = new MainWindow()
+            {
+                DataContext = new MainWindowViewModel(navService)
+            };
+            navService.NavigateTo<SelectionViewModel>();
+            MainWindow.Show();
+            
         }
 
  

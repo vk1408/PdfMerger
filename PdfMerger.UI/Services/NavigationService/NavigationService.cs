@@ -2,6 +2,7 @@
 using PdfMerger.UI.ViewModels;
 using PdfMerger.UI.Views;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,41 +14,44 @@ namespace PdfMerger.UI.Services.NavigationService
 {
     public interface INavigationService
     {
-        void NavigateTo(ViewModelBase viewModel);
+        void NavigateTo<T>() where T : ViewModelBase;
         ViewModelBase CurrentViewModel { get; }
+        Action ViewChanged { get; set; }
     }
 
     public class NavigationService : INavigationService
     {
-        private  MainWindow _mainWindow => Application.Current.MainWindow as MainWindow;
-        private readonly Dictionary<ViewModelBase, UserControl> _mapping = new Dictionary<ViewModelBase, UserControl>();
+        private MainWindow _mainWindow => Application.Current.MainWindow as MainWindow;
+        private MainWindowViewModel _mainWindowViewModel => Application.Current.MainWindow.DataContext as MainWindowViewModel;
 
-        public NavigationService()
+
+        public void NavigateTo<TViewModel>() where TViewModel : ViewModelBase
         {
-       
-        }
+            ViewModelBase viewModel;
 
-        public void NavigateTo(ViewModelBase viewModel)
-        {
-    
-            if (!_mapping.ContainsKey(viewModel))
-            {
-                if (viewModel is EditPdfViewModel)
-                    _mapping.Add(viewModel, new EditPdfView());
-                else if (viewModel is MergePdfViewModel)
-                    _mapping.Add(viewModel, new MergePdfView());
-                else if (viewModel is SelectionViewModel)
-                    _mapping.Add(viewModel, new SelectionView());
-                else if (viewModel is SplitPdfViewModel)
-                    _mapping.Add(viewModel, new SplitPdfView());
+            if (typeof(TViewModel) == typeof(EditPdfViewModel))
+                viewModel = _mainWindowViewModel.EditPdfViewModel;
+            else if (typeof(TViewModel) == typeof(MergePdfViewModel))
+                viewModel = _mainWindowViewModel.MergePdfViewModel;
+            else if (typeof(TViewModel) == typeof(SelectionViewModel))
+                viewModel = _mainWindowViewModel.SelectionViewModel;
+            else if (typeof(TViewModel) == typeof(SplitPdfViewModel))
+                viewModel = _mainWindowViewModel.SplitPdfViewModel;
+            else
+                throw new NotImplementedException();
 
-                _mapping[viewModel].DataContext = viewModel;
-            }
-
-            _mainWindow.cconCurrentView.Content = _mapping[viewModel];
-
+            
             CurrentViewModel = viewModel;
+            OnViewChanged();
         }
         public ViewModelBase CurrentViewModel { get; private set; }
+
+        public Action ViewChanged { get; set; }
+
+        private void OnViewChanged()
+        {
+            ViewChanged?.Invoke();
+
+        }
     }
 }

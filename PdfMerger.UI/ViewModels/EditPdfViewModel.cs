@@ -1,4 +1,5 @@
 ﻿using PdfMerger.UI.MVVM;
+using PdfMerger.UI.Services.NavigationService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,13 @@ namespace PdfMerger.UI.ViewModels
 {
     public class EditPdfViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
+
+        public EditPdfViewModel(INavigationService navigationService)
+        {
+            _navigationService = navigationService;
+        }
+        public RelayCommand NavigateToSelectionViewCommand => new RelayCommand((par) => { _navigationService.NavigateTo<SelectionViewModel>(); });
 
     }
 }

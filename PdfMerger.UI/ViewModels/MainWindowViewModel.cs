@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 
 namespace PdfMerger.UI.ViewModels
 {
@@ -20,19 +22,24 @@ namespace PdfMerger.UI.ViewModels
         public SplitPdfViewModel SplitPdfViewModel { get; private set; }
 
 
-        public MainWindowViewModel()
-        {
-            InitViewModels();
-          
 
+        private readonly INavigationService _navigationService;
+
+        public ViewModelBase CurrentViewModel => _navigationService.CurrentViewModel;
+
+        public MainWindowViewModel(INavigationService navigationService)
+        {
+            _navigationService = navigationService;
+            _navigationService.ViewChanged += OnViewChanged;
+            SelectionViewModel = new SelectionViewModel(_navigationService);
+            EditPdfViewModel = new EditPdfViewModel(_navigationService);
+            MergePdfViewModel = new MergePdfViewModel(_navigationService);
+            SplitPdfViewModel = new SplitPdfViewModel(_navigationService);
         }
 
-        private void InitViewModels()
+        private void OnViewChanged()
         {
-            SelectionViewModel = new SelectionViewModel(this,App.Current.Services.GetService<INavigationService>());
-            EditPdfViewModel = new EditPdfViewModel();
-            MergePdfViewModel = new MergePdfViewModel();
-            SplitPdfViewModel = new SplitPdfViewModel();
+            RaisePropertyChanged(nameof(CurrentViewModel));
         }
     }
 }

@@ -12,31 +12,17 @@ namespace PdfMerger.UI.ViewModels
     public class SelectionViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private readonly MainWindowViewModel _mainWindowViewModel;
-        public SelectionViewModel(MainWindowViewModel mainWindowViewModel, INavigationService navigationService)
+
+        public SelectionViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            _mainWindowViewModel = mainWindowViewModel;
+    
         }
-        public RelayCommand NavigateToEditPdfViewCommand => new RelayCommand(execute=>NavigateToEditPdfView());
-        
-        public void NavigateToEditPdfView()
-        {
-            _navigationService.NavigateTo(_mainWindowViewModel.EditPdfViewModel);
-        }
+        public RelayCommand NavigateToEditPdfViewCommand => new RelayCommand((par) => { _navigationService.NavigateTo<EditPdfViewModel>(); });
 
-        public RelayCommand NavigateToMergePdfViewCommand => new RelayCommand(execute => NavigateToEditPdfView());
-        public void NavigateToMergePdfView()
-        {
-            _navigationService.NavigateTo(_mainWindowViewModel.MergePdfViewModel);
+        public RelayCommand NavigateToMergePdfViewCommand => new RelayCommand((par) => { _navigationService.NavigateTo<MergePdfViewModel>(); });
 
-        }
-
-        public RelayCommand NavigateToSplitPdfViewCommand => new RelayCommand(execute => NavigateToEditPdfView());
-        public void NavigateToSplitPdfView()
-        {
-            _navigationService.NavigateTo(_mainWindowViewModel.SplitPdfViewModel);
-
-        }
+        public RelayCommand NavigateToSplitPdfViewCommand => new RelayCommand((par) => { _navigationService.NavigateTo<SplitPdfViewModel>(); });
+  
     }
 }
