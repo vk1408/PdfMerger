@@ -30,5 +30,11 @@ namespace PdfMerger.UI.ViewModels
         {
             RaisePropertyChanged(nameof(CurrentViewModel));
         }
+        public RelayCommand NavigateToSelectionViewCommand => new RelayCommand((par) => { _navigationService.NavigateTo<SelectionViewModel>(); } 
+        , 
+        (t) => ! (CurrentViewModel is SelectionViewModel)    );
+
+        
+
     }
 }
