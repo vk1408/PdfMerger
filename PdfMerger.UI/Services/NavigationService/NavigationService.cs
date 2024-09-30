@@ -1,6 +1,7 @@
 ﻿using PdfMerger.UI.MVVM;
 using PdfMerger.UI.ViewModels;
 using PdfMerger.UI.Views;
+using PdfMergerUI;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -21,27 +22,13 @@ namespace PdfMerger.UI.Services.NavigationService
 
     public class NavigationService : INavigationService
     {
-        private MainWindow _mainWindow => Application.Current.MainWindow as MainWindow;
-        private MainWindowViewModel _mainWindowViewModel => Application.Current.MainWindow.DataContext as MainWindowViewModel;
-
-
         public void NavigateTo<TViewModel>() where TViewModel : ViewModelBase
         {
-            ViewModelBase viewModel;
 
-            if (typeof(TViewModel) == typeof(EditPdfViewModel))
-                viewModel = _mainWindowViewModel.EditPdfViewModel;
-            else if (typeof(TViewModel) == typeof(MergePdfViewModel))
-                viewModel = _mainWindowViewModel.MergePdfViewModel;
-            else if (typeof(TViewModel) == typeof(SelectionViewModel))
-                viewModel = _mainWindowViewModel.SelectionViewModel;
-            else if (typeof(TViewModel) == typeof(SplitPdfViewModel))
-                viewModel = _mainWindowViewModel.SplitPdfViewModel;
-            else
-                throw new NotImplementedException();
+            var viewModel = (ViewModelBase) App.Current.Services.GetService(typeof(TViewModel));
 
-            
             CurrentViewModel = viewModel;
+
             OnViewChanged();
         }
         public ViewModelBase CurrentViewModel { get; private set; }
@@ -51,7 +38,6 @@ namespace PdfMerger.UI.Services.NavigationService
         private void OnViewChanged()
         {
             ViewChanged?.Invoke();
-
         }
     }
 }

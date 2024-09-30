@@ -16,13 +16,6 @@ namespace PdfMerger.UI.ViewModels
     {
       
 
-        public SelectionViewModel SelectionViewModel { get; private set; }
-        public EditPdfViewModel EditPdfViewModel { get; private set; }
-        public MergePdfViewModel MergePdfViewModel { get; private set; }
-        public SplitPdfViewModel SplitPdfViewModel { get; private set; }
-
-
-
         private readonly INavigationService _navigationService;
 
         public ViewModelBase CurrentViewModel => _navigationService.CurrentViewModel;
@@ -31,10 +24,6 @@ namespace PdfMerger.UI.ViewModels
         {
             _navigationService = navigationService;
             _navigationService.ViewChanged += OnViewChanged;
-            SelectionViewModel = new SelectionViewModel(_navigationService);
-            EditPdfViewModel = new EditPdfViewModel(_navigationService);
-            MergePdfViewModel = new MergePdfViewModel(_navigationService);
-            SplitPdfViewModel = new SplitPdfViewModel(_navigationService);
         }
 
         private void OnViewChanged()

@@ -3,11 +3,6 @@ using PdfMerger.UI;
 using PdfMerger.UI.Services.NavigationService;
 using PdfMerger.UI.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PdfMergerUI
@@ -36,15 +31,20 @@ namespace PdfMergerUI
             };
             navService.NavigateTo<SelectionViewModel>();
             MainWindow.Show();
-            
+
         }
 
- 
+
         private static IServiceProvider ConfigureServices()
         {
             var services = new ServiceCollection();
 
             services.AddSingleton<INavigationService, NavigationService>();
+
+            services.AddSingleton<EditPdfViewModel>();
+            services.AddSingleton<MergePdfViewModel>();
+            services.AddSingleton<SelectionViewModel>();
+            services.AddSingleton<SplitPdfViewModel>();
 
             return services.BuildServiceProvider();
         }
