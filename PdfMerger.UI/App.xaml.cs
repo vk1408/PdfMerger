@@ -17,7 +17,7 @@ namespace PdfMergerUI
             Services = ConfigureServices();
         }
 
-        public new static App Current => (App)Application.Current;
+        public static App Current => (App)Application.Current;
 
         public IServiceProvider Services { get; private set; }
 

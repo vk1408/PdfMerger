@@ -17,9 +17,9 @@ namespace PdfMerger.UI.MVVM
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void RaiseAndAndSetIfChanged(ref object oldValue, object newValue, [CallerMemberName] string propertyName = null)
+        public void RaiseAndAndSetIfChanged<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = null)
         {
-            if (oldValue.Equals(newValue)==false)
+            if (oldValue == null || oldValue.Equals(newValue)==false)
             {
                 oldValue = newValue;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

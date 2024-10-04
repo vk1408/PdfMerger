@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PdfMerger.UI"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
-        
         xmlns:vm="clr-namespace:PdfMerger.UI.ViewModels"
         xmlns:views="clr-namespace:PdfMerger.UI.Views"
-        
-        
         mc:Ignorable="d"
-        Title="PdfMerger" Height="450" Width="800" Icon="/images/AppLogo.png"
+        Title="PdfMerger" 
+        Height="450" Width="800"
+        ResizeMode="NoResize"
+        Icon="/images/AppLogo.png"
 
         WindowStartupLocation="CenterScreen">
     <Grid Background="WhiteSmoke">

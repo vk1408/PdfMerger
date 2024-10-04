@@ -16,7 +16,6 @@ namespace PdfMerger.UI.ViewModels
         {
             _navigationService = navigationService;
         }
-        public RelayCommand NavigateToSelectionViewCommand => new RelayCommand((par) => { _navigationService.NavigateTo<SelectionViewModel>(); });
 
     }
 }
