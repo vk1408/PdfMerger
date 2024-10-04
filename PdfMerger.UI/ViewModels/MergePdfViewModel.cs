@@ -1,10 +1,12 @@
-﻿using Microsoft.Win32;
+﻿using PdfMerger.Core;
 using PdfMerger.UI.MVVM;
 using PdfMerger.UI.Services.NavigationService;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace PdfMerger.UI.ViewModels
 {
@@ -18,12 +20,12 @@ namespace PdfMerger.UI.ViewModels
         }
 
         public ObservableCollection<string> Files { get; private set; } = new ObservableCollection<string>();
-        
+
         private string _selectedFile;
         public string SelectedFile
         {
-            get => _selectedFile; 
-            set => RaiseAndAndSetIfChanged(ref _selectedFile, value);   
+            get => _selectedFile;
+            set => RaiseAndAndSetIfChanged(ref _selectedFile, value);
         }
 
         private int _totalFileCount;
@@ -37,14 +39,14 @@ namespace PdfMerger.UI.ViewModels
         public double TotalInitialSize
         {
             get => _totalInitialSize;
-            set => RaiseAndAndSetIfChanged(ref _totalInitialSize, value);   
+            set => RaiseAndAndSetIfChanged(ref _totalInitialSize, value);
         }
 
         private Dictionary<string, double> _fileSizes = new Dictionary<string, double>();
 
-        public RelayCommand AddFileCommand => new RelayCommand((par) => 
+        public RelayCommand AddFileCommand => new RelayCommand((par) =>
         {
-            var dialog = new OpenFileDialog()
+            var dialog = new Microsoft.Win32.OpenFileDialog()
             {
                 Title = "Select PDF files...",
                 Filter = "Pdf documents (.pdf)|*.pdf",
@@ -52,7 +54,7 @@ namespace PdfMerger.UI.ViewModels
             };
             bool? result = dialog.ShowDialog();
 
-            if (result == true )
+            if (result == true)
             {
                 string[] files = dialog.FileNames;
                 AddFiles(files);
@@ -79,7 +81,7 @@ namespace PdfMerger.UI.ViewModels
         public RelayCommand RemoveFileCommand => new RelayCommand((par) =>
         {
             if (Files.Contains(SelectedFile))
-            { 
+            {
                 TotalInitialSize -= _fileSizes[SelectedFile];
                 _fileSizes.Remove(SelectedFile);
                 TotalFileCount--;
@@ -87,8 +89,8 @@ namespace PdfMerger.UI.ViewModels
 
             }
 
-        }, 
-        (par)=>SelectedFile!=null);
+        },
+        (par) => SelectedFile != null);
 
         public RelayCommand MoveBack => new RelayCommand((par) =>
         {
@@ -100,7 +102,7 @@ namespace PdfMerger.UI.ViewModels
                     Files.Move(pos, pos - 1);
             }
         },
-        (par)=> SelectedFile!=null && Files.IndexOf(SelectedFile)>0);
+        (par) => SelectedFile != null && Files.IndexOf(SelectedFile) > 0);
 
         public RelayCommand MoveForward => new RelayCommand((par) =>
         {
@@ -108,11 +110,11 @@ namespace PdfMerger.UI.ViewModels
             {
                 var file = SelectedFile;
                 var pos = Files.IndexOf(file);
-                if (pos < Files.Count-1)
+                if (pos < Files.Count - 1)
                     Files.Move(pos, pos + 1);
             }
         },
-        (par)=>SelectedFile!=null && Files.IndexOf(SelectedFile)<Files.Count-1);
+        (par) => SelectedFile != null && Files.IndexOf(SelectedFile) < Files.Count - 1);
 
         public RelayCommand DeleteAllFiles => new RelayCommand((par) =>
         {
@@ -123,7 +125,7 @@ namespace PdfMerger.UI.ViewModels
             MessageBoxButton button = MessageBoxButton.YesNo;
             MessageBoxImage icon = MessageBoxImage.Question;
 
-            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.Yes);
+            MessageBoxResult result = System.Windows.MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.Yes);
             if (result == MessageBoxResult.Yes)
             {
                 Files.Clear();
@@ -131,12 +133,28 @@ namespace PdfMerger.UI.ViewModels
                 TotalInitialSize = 0;
                 TotalFileCount = 0;
             }
-        }, 
-        (par)=>Files.Count != 0);
+        },
+        (par) => Files.Count != 0);
 
+        public RelayCommand MergeFilesCommand => new RelayCommand((par) =>
+        {
+            var dialog = new Microsoft.Win32.SaveFileDialog();
+            dialog.Title = "Save file as...";
+            dialog.DefaultExt = "pdf";
+            dialog.Filter = "Pdf documents (.pdf)|*.pdf";
+            var result = dialog.ShowDialog();
+            if (result == true)
+            {
+                string outputPath = dialog.FileName;
+                PdfEditor.MergeFiles(Files.ToArray(), outputPath, OnMergeFinished);
+            }
+        });
 
-
-
-
+        private void OnMergeFinished()
+        {
+            string caption = "Successfull!";
+            string messageBoxText = "Merging files finished!";
+            MessageBoxResult result = System.Windows.MessageBox.Show(messageBoxText, caption);
+        }
     }
 }

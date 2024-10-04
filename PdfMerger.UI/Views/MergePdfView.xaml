@@ -37,14 +37,12 @@
             </UniformGrid>
             
             <DockPanel Margin="20,0,0,0">
-
                 <TextBlock DockPanel.Dock="Top" Text="{Binding TotalFileCount, StringFormat=Files: {0}}"/>
                 <TextBlock DockPanel.Dock="Top" Text="{Binding TotalInitialSize, StringFormat=Total size: {0:0.00} MB}"/>
-
             </DockPanel>
         </StackPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10,10,0,0">
-            <Button  Content="Merge FIles" Height="30" Width="100"/>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10,10,10,0">
+            <Button Command="{Binding MergeFilesCommand}"  Content="Merge FIles" Height="30" Width="100"/>
             <!--<ProgressBar Height="30" Width="395" Margin="5,0,0,0"/>-->
         </StackPanel>
 

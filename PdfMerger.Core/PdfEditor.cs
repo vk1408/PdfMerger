@@ -10,20 +10,19 @@ namespace PdfMerger.Core
     public static class PdfEditor
     {
         /// <summary>
-        /// Merge selected sourcePdf files together
+        /// Merge selected files to output file
         /// </summary>
-        public static void MergeFiles(string fileOnePath, string fileTwoPath, string outputFilePath)
+        public static void MergeFiles(string[] files, string outputFile, Action callback=null)
         {
-            List<string> pdfFiles = new List<string>() { fileOnePath, fileTwoPath };
             PdfDocument outPdf = new PdfDocument();
-          
-            foreach (string pdfFile in pdfFiles)
+            foreach (string file in files)
             {
-                PdfDocument pdf = PdfReader.Open(pdfFile, PdfDocumentOpenMode.Import);
+                PdfDocument pdf = PdfReader.Open(file, PdfDocumentOpenMode.Import);
                 CopyPages(pdf, outPdf);
                 pdf.Close();
             }
-            outPdf.Save(outputFilePath);
+            outPdf.Save(outputFile);
+            callback?.Invoke();
         }
         
 
