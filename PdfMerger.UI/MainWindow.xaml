@@ -12,9 +12,9 @@
         Height="450" Width="800"
         ResizeMode="NoResize"
         Icon="/images/AppLogo.png"
-
+        
         WindowStartupLocation="CenterScreen">
-    <Grid Background="WhiteSmoke">
+    <Grid Background="WhiteSmoke" >
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition Height="*"/>
