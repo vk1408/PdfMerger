@@ -4,6 +4,7 @@ using PdfSharp.Pdf.IO;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.IO;
 
 namespace PdfMerger.Core
 {
@@ -24,48 +25,52 @@ namespace PdfMerger.Core
             outPdf.Save(outputFile);
             callback?.Invoke();
         }
-        
+
+        /// <summary>
+        /// Split selected sourcePdf document into sections. Section represented with array
+        /// of page numbers from the original file 
+        /// </summary>
+        public static void SplitPdfDocument(string file, IEnumerable<int[]> sections, string outputFolder, Action callback = null)
+        {
+            PdfDocument pdf = PdfReader.Open(file, PdfDocumentOpenMode.Import);
+
+            int index = 1;
+            foreach (var section in sections)
+            {
+                PdfDocument pdfSection = new PdfDocument();
+                CopySelectedPages(pdf, pdfSection, section);
+                string outputFilePath = Path.Combine(outputFolder, $"Split_{index}");
+                index++;
+                pdfSection.Save(outputFilePath);
+            }
+
+            pdf.Close();
+            callback?.Invoke();
+        }
 
         /// <summary>
         /// Moves selected pages from one file to another. Pages count from 1
         /// </summary>
-        public static void MovePages(string sourceFile, string targetFile, IEnumerable<int> pages)
+        private static void CopySelectedPages(PdfDocument sourcePdf, PdfDocument targetPdf, int[] pages)
         {
-            PdfDocument sourcePdf = PdfReader.Open(sourceFile, PdfDocumentOpenMode.Import);
-
-            PdfDocument targetPdf = new PdfDocument();
-
             foreach (var pageNum in pages)
             {
                 int pageIndex = pageNum - 1;
 
-                if (pageIndex > 0 && pageIndex < sourcePdf.Pages.Count)
+                if (pageIndex >= 0 && pageIndex < sourcePdf.Pages.Count)
                     targetPdf.AddPage(sourcePdf.Pages[pageIndex]);
                 else
                     continue;
             }
-
-            targetPdf.Save(targetFile);
-            sourcePdf.Close();
-
         }
 
-        /// <summary>
-        /// Split selected sourcePdf document into sections
-        /// </summary>
-        public static void SplitPdfDocument(PdfDocument pdf, Dictionary<int,IEnumerable<int>> sections) 
-        { 
-            // for each section create a separate pdf file with given pages from source pdf
-        
-        }
 
 
         private static void CopyPages(PdfDocument from, PdfDocument to)
         {
             for (int i = 0; i < from.PageCount; i++)
-            {
                 to.AddPage(from.Pages[i]);
-            }
+            
         }
     }
 }

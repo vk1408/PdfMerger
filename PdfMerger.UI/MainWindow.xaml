@@ -9,7 +9,7 @@
         xmlns:views="clr-namespace:PdfMerger.UI.Views"
         mc:Ignorable="d"
         Title="PdfMerger" 
-        Height="450" Width="800"
+        Height="520" Width="800"
         ResizeMode="NoResize"
         Icon="/images/AppLogo.png"
         

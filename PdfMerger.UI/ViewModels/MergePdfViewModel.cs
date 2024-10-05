@@ -92,7 +92,7 @@ namespace PdfMerger.UI.ViewModels
         },
         (par) => SelectedFile != null);
 
-        public RelayCommand MoveBack => new RelayCommand((par) =>
+        public RelayCommand MoveBackCommand => new RelayCommand((par) =>
         {
             if (Files.Contains(SelectedFile))
             {
@@ -104,7 +104,7 @@ namespace PdfMerger.UI.ViewModels
         },
         (par) => SelectedFile != null && Files.IndexOf(SelectedFile) > 0);
 
-        public RelayCommand MoveForward => new RelayCommand((par) =>
+        public RelayCommand MoveForwardCommand => new RelayCommand((par) =>
         {
             if (Files.Contains(SelectedFile))
             {
@@ -116,7 +116,7 @@ namespace PdfMerger.UI.ViewModels
         },
         (par) => SelectedFile != null && Files.IndexOf(SelectedFile) < Files.Count - 1);
 
-        public RelayCommand DeleteAllFiles => new RelayCommand((par) =>
+        public RelayCommand DeleteAllFilesCommand => new RelayCommand((par) =>
         {
             if (Files.Count == 0)
                 return;
