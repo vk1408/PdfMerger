@@ -13,6 +13,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:BoolToStringConverter x:Key="BoolToStringConverter"/>
+        <converters:StringToIntervalListConverter x:Key="StringToIntervalListConverter"/>
     </UserControl.Resources>
     <DockPanel Background="WhiteSmoke" LastChildFill="False">
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10,10,0,0">
@@ -28,30 +29,35 @@
             <StackPanel >
                 <Label Content="Sections:" HorizontalContentAlignment="Left" Padding="0"/>
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <Button Height="30" Width="30">
+                    <Button Command="{Binding AddSectionCommand}" Height="30" Width="30">
                         <materialIcons:MaterialIcon Kind="AddBold"/>
                     </Button>
-                    <Button Height="30" Width="30" Margin="10,0,0,0">
+                    <Button Command="{Binding DeleteSectionCommand}" Height="30" Width="30" Margin="10,0,0,0">
                         <materialIcons:MaterialIcon Kind="Delete" />
                     </Button>
-                    <Button Height="30" Width="30" Margin="10,0,0,0">
+                    <!--<Button Height="30" Width="30" Margin="10,0,0,0">
                         <materialIcons:MaterialIcon Kind="Edit" />
-                    </Button>
-                    <Button Height="30" Width="30" Margin="10,0,0,0">
+                    </Button>-->
+                    <!--<Button Height="30" Width="30" Margin="10,0,0,0">
                         <materialIcons:MaterialIcon Kind="RemoveBold" />
-                    </Button>
+                    </Button>-->
                 </StackPanel>
-                <ListBox  Height="220" Width="400" Margin="0,10,0,0">
-
-                </ListBox>
+                <DataGrid  Margin="0,5,0,0" ItemsSource="{Binding DocumentSections}" SelectedItem="{Binding SelectedDocumentSection}" Height="220" Width="400"  
+                          CanUserAddRows="False" CanUserDeleteRows="False"
+                          AutoGenerateColumns="False" CanUserSortColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="Pages" Binding="{Binding Pages, Converter={StaticResource StringToIntervalListConverter}, Mode=TwoWay}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
             <StackPanel Margin="20,35,0,0">
-                <Label Content="Pages:"/>
-                <ListBox Height="220" Width="200"  ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <Label Content="Preview:"/>
+                <WebBrowser x:Name="webBrowserPdfPreview"  Height="260" Width="320" InputScope="OneChar"/>
 
-                </ListBox>
+
+                <TextBlock Text="{Binding PageCount, StringFormat=Total pages: {0}}" Margin="0,5,0,0"/>
             </StackPanel>
-      
         </StackPanel>
         <StackPanel DockPanel.Dock="Top" Margin="10,10,10,0" Orientation="Horizontal">
             <Button Content="Split!" Height="30" Width="100" />

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PdfMerger.UI.ViewModels;
+using PdfMergerUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +26,13 @@ namespace PdfMerger.UI.Views
         public SplitPdfView()
         {
             InitializeComponent();
+            var viewModel = App.Current.Services.GetRequiredService<SplitPdfViewModel>();
+            viewModel.SelectedFileChanged += ViewModel_SelectedFileChanged;
+        }
+
+        private void ViewModel_SelectedFileChanged(object sender, Uri pdfPath)
+        {
+            webBrowserPdfPreview.Navigate(pdfPath);
         }
     }
 }

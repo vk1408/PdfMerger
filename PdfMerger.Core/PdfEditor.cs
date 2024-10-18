@@ -48,6 +48,14 @@ namespace PdfMerger.Core
             callback?.Invoke();
         }
 
+        public static int GetPageCount(string file)
+        {
+            PdfDocument pdf = PdfReader.Open(file, PdfDocumentOpenMode.ReadOnly);
+            var pageCount = pdf.PageCount;
+            pdf.Close();
+            return pageCount;
+        }
+
         /// <summary>
         /// Moves selected pages from one file to another. Pages count from 1
         /// </summary>

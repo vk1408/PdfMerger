@@ -1,5 +1,11 @@
-﻿using PdfMerger.UI.MVVM;
+﻿using PdfMerger.Core;
+using PdfMerger.UI.Models;
+using PdfMerger.UI.MVVM;
 using PdfMerger.UI.Services.NavigationService;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Documents;
 
 namespace PdfMerger.UI.ViewModels
 {
@@ -23,8 +29,44 @@ namespace PdfMerger.UI.ViewModels
         public string SelectedFile
         {
             get => _selectedFile;
-            set => RaiseAndAndSetIfChanged(ref _selectedFile, value);
+            set 
+            { 
+                if (_selectedFile != value)
+                {
+                    _selectedFile = value;
+                    RaisePropertyChanged();
+
+                    if (string.IsNullOrEmpty(_selectedFile)==false) 
+                        PdfUri = new Uri(_selectedFile);
+                    else
+                        PdfUri = new Uri("about:blank");
+
+                    SelectedFileChanged?.Invoke(this, PdfUri);
+
+                }
+            }
         }
+
+        private Uri _pdfUri;
+        public Uri PdfUri 
+        {
+            get => _pdfUri;
+            set => RaiseAndAndSetIfChanged(ref _pdfUri, value);
+        }
+
+        private int _pageCount;
+
+        public int PageCount
+        {
+            get => _pageCount; 
+            set => RaiseAndAndSetIfChanged(ref _pageCount, value);
+        }
+
+
+        public event EventHandler<Uri> SelectedFileChanged;  
+
+
+
         public RelayCommand SelectFileCommand => new RelayCommand((par) =>
         {
             var dialog = new Microsoft.Win32.OpenFileDialog()
@@ -39,6 +81,7 @@ namespace PdfMerger.UI.ViewModels
             {
                 SelectedFile = dialog.FileName;
                 IsFileSelected = true;
+                PageCount = PdfEditor.GetPageCount(dialog.FileName);
             }
 
         });
@@ -46,11 +89,32 @@ namespace PdfMerger.UI.ViewModels
         public RelayCommand DeselectFileCommand => new RelayCommand((par) => 
         { 
             SelectedFile = null; 
-            IsFileSelected = false; 
+            IsFileSelected = false;
+            PageCount = 0;
+            DocumentSections.Clear();
         }, (par)=>SelectedFile!=null);
 
+        public ObservableCollection<DocumentSection> DocumentSections { get; } = new ObservableCollection<DocumentSection>();
 
+        public int SectionCount => DocumentSections.Count;
 
+        private DocumentSection _selectedDocumentSection;
+
+        public DocumentSection SelectedDocumentSection
+        {
+            get => _selectedDocumentSection;
+            set => RaiseAndAndSetIfChanged(ref _selectedDocumentSection, value);
+        }
+
+        public RelayCommand AddSectionCommand => new RelayCommand((par) =>
+        {
+            DocumentSections.Add(new DocumentSection($"Section {DocumentSections.Count + 1}"));
+        }, (par) => SelectedFile != null);
+
+        public RelayCommand DeleteSectionCommand => new RelayCommand((par) =>
+        {
+            DocumentSections.Remove(SelectedDocumentSection);
+        }, (par) => (SelectedFile != null) && (SelectedDocumentSection!=null));
 
 
     }
