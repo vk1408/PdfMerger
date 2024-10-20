@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="PdfMerger" 
         Height="520" Width="800"
-        ResizeMode="NoResize"
+        ResizeMode="CanResize"
         Icon="/images/AppLogo.png"
         
         WindowStartupLocation="CenterScreen">
@@ -18,7 +18,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="20"/>
 
         </Grid.RowDefinitions>
         <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,2" Background="LightGray">
@@ -31,7 +31,8 @@
         </Border>
 
         
-        <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
+        <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type vm:EditPdfViewModel}">
                     <views:EditPdfView/>

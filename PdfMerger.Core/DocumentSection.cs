@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PdfMerger.UI.Models
+namespace PdfMerger.Core
 {
     public class DocumentSection
     {

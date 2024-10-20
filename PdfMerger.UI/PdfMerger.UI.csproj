@@ -95,7 +95,6 @@
     </ApplicationDefinition>
     <Compile Include="Converters\BoolToStringConverter.cs" />
     <Compile Include="Converters\StringToIntervalListConverter.cs" />
-    <Compile Include="Models\DocumentSection.cs" />
     <Compile Include="Services\NavigationService\NavigationService.cs" />
     <Compile Include="ViewModels\EditPdfViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -201,6 +200,8 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

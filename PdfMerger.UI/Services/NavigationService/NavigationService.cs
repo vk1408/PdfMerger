@@ -25,9 +25,7 @@ namespace PdfMerger.UI.Services.NavigationService
         public void NavigateTo<TViewModel>() where TViewModel : ViewModelBase
         {
 
-            var viewModel = (ViewModelBase) App.Current.Services.GetService(typeof(TViewModel));
-
-            CurrentViewModel = viewModel;
+            CurrentViewModel = (ViewModelBase) App.Current.Services.GetService(typeof(TViewModel));
 
             OnViewChanged();
         }

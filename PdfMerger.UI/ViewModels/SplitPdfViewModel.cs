@@ -1,11 +1,14 @@
 ﻿using PdfMerger.Core;
-using PdfMerger.UI.Models;
 using PdfMerger.UI.MVVM;
 using PdfMerger.UI.Services.NavigationService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Forms;
 
 namespace PdfMerger.UI.ViewModels
 {
@@ -16,6 +19,17 @@ namespace PdfMerger.UI.ViewModels
         public SplitPdfViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
+            _navigationService.ViewChanged += OnViewChanged;
+        }
+
+        private void OnViewChanged()
+        {
+            if (_navigationService.CurrentViewModel is SplitPdfViewModel)
+            {
+                SelectedFile = null;
+                IsFileSelected = false;
+                DocumentSections.Clear();
+            }
         }
 
         private bool _isFileSelected;
@@ -55,7 +69,6 @@ namespace PdfMerger.UI.ViewModels
         }
 
         private int _pageCount;
-
         public int PageCount
         {
             get => _pageCount; 
@@ -66,7 +79,20 @@ namespace PdfMerger.UI.ViewModels
         public event EventHandler<Uri> SelectedFileChanged;  
 
 
+        public ObservableCollection<DocumentSection> DocumentSections { get; } = new ObservableCollection<DocumentSection>();
 
+        private DocumentSection _selectedDocumentSection;
+
+        public DocumentSection SelectedDocumentSection
+        {
+            get => _selectedDocumentSection;
+            set => RaiseAndAndSetIfChanged(ref _selectedDocumentSection, value);
+        }
+
+        private int _sectionCount = 0;
+
+
+        #region Commands
         public RelayCommand SelectFileCommand => new RelayCommand((par) =>
         {
             var dialog = new Microsoft.Win32.OpenFileDialog()
@@ -85,36 +111,47 @@ namespace PdfMerger.UI.ViewModels
             }
 
         });
-
-        public RelayCommand DeselectFileCommand => new RelayCommand((par) => 
-        { 
-            SelectedFile = null; 
+        public RelayCommand DeselectFileCommand => new RelayCommand((par) =>
+        {
+            SelectedFile = null;
             IsFileSelected = false;
             PageCount = 0;
             DocumentSections.Clear();
-        }, (par)=>SelectedFile!=null);
-
-        public ObservableCollection<DocumentSection> DocumentSections { get; } = new ObservableCollection<DocumentSection>();
-
-        public int SectionCount => DocumentSections.Count;
-
-        private DocumentSection _selectedDocumentSection;
-
-        public DocumentSection SelectedDocumentSection
-        {
-            get => _selectedDocumentSection;
-            set => RaiseAndAndSetIfChanged(ref _selectedDocumentSection, value);
-        }
-
+        }, (par) => SelectedFile != null);
         public RelayCommand AddSectionCommand => new RelayCommand((par) =>
         {
-            DocumentSections.Add(new DocumentSection($"Section {DocumentSections.Count + 1}"));
-        }, (par) => SelectedFile != null);
-
+            _sectionCount++;
+            DocumentSections.Add(new DocumentSection($"Section {_sectionCount}"));
+        },  (par) => SelectedFile != null);
         public RelayCommand DeleteSectionCommand => new RelayCommand((par) =>
         {
+            _sectionCount--;
             DocumentSections.Remove(SelectedDocumentSection);
-        }, (par) => (SelectedFile != null) && (SelectedDocumentSection!=null));
+        }, (par) => (SelectedFile != null) && (SelectedDocumentSection != null));
+        public RelayCommand SplitCommand => new RelayCommand((par) => 
+        {
+            System.Windows.Forms.FolderBrowserDialog folderDialog = new System.Windows.Forms.FolderBrowserDialog();
+            folderDialog.Description = "Select output folder...";
+            folderDialog.RootFolder = Environment.SpecialFolder.MyDocuments;
+            var result = folderDialog.ShowDialog();
+            if (result.ToString() != string.Empty)
+            {
+                var outputFolder = folderDialog.SelectedPath;
+                PdfEditor.SplitPdfDocument(SelectedFile, DocumentSections, outputFolder, OSplitFinished);
+                
+            }
+        
+        }, (par) => SelectedFile != null && DocumentSections.Count>0 
+        && ! DocumentSections.Any(x=>x.Pages.Count==0)
+        && ! DocumentSections.Any(x => string.IsNullOrEmpty(x.Name)));
+       
+        private void OSplitFinished()
+        {
+            string caption = "Successfull!";
+            string messageBoxText = "File successfully splited!";
+            MessageBoxResult result = System.Windows.MessageBox.Show(messageBoxText, caption);
+        }
+        #endregion
 
 
     }

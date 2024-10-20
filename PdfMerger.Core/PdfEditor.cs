@@ -30,20 +30,17 @@ namespace PdfMerger.Core
         /// Split selected sourcePdf document into sections. Section represented with array
         /// of page numbers from the original file 
         /// </summary>
-        public static void SplitPdfDocument(string file, IEnumerable<int[]> sections, string outputFolder, Action callback = null)
+        public static void SplitPdfDocument(string file, IEnumerable<DocumentSection> sections, string outputFolder, Action callback = null)
         {
             PdfDocument pdf = PdfReader.Open(file, PdfDocumentOpenMode.Import);
-
-            int index = 1;
+           
             foreach (var section in sections)
             {
                 PdfDocument pdfSection = new PdfDocument();
-                CopySelectedPages(pdf, pdfSection, section);
-                string outputFilePath = Path.Combine(outputFolder, $"Split_{index}");
-                index++;
+                CopySelectedPages(pdf, pdfSection, section.Pages.ToArray());
+                string outputFilePath = Path.Combine(outputFolder, $"{section.Name}.pdf");
                 pdfSection.Save(outputFilePath);
             }
-
             pdf.Close();
             callback?.Invoke();
         }
@@ -71,7 +68,6 @@ namespace PdfMerger.Core
                     continue;
             }
         }
-
 
 
         private static void CopyPages(PdfDocument from, PdfDocument to)
